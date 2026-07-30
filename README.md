@@ -51,7 +51,7 @@ Provisional patent filed with the USPTO, May 2026. *Implementation details withh
 
 ---
 
-### Sovereign Fleet — algorithmic trading research
+### Trading System — algorithmic trading research
 Multi-ticker equity bot on paper trading with a local-model quant gate that blocks any entry
 failing its checks, an exchange-holiday-aware market clock, automatic halt on repeated faults, a
 dead-man watchdog, and phone push escalation.
