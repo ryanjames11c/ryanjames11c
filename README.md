@@ -1,128 +1,307 @@
-# Ryan J. Park
+# Systems I Build
 
-**Industrial electrical & HVAC technician. Automation / PLC. Systems builder. U.S. Army veteran.**
-Richmond Hill, GA · Founder, Stark Diagnostics LLC
+Most of what is here started because I hit a limitation I could not get past.
 
----
+I usually do not start with:
 
-I learned electrical, embedded, and industrial automation by teardown, experimentation, and
-primary-source research. Most of what's below started the same way: I hit something I couldn't
-get past, and built the thing that got me past it.
+> "What app should I make?"
 
-Pattern and spatial reasoning first, language second. I don't learn linearly — I build.
+I start with:
 
-**Repositories here are private.** The work is described below; source is available under NDA
-or on request where it isn't patent-restricted.
+> "What is stopping the next thing from working?"
 
----
+Then I observe the system, build a model of it, test the model against reality, find the failure path, and build around it.
 
-## Selected work
+**Observe → Model → Test → Update**
 
-### MOV Systems 3D Training Simulator — *ongoing*
-Interactive 3D maintenance trainer for Limitorque SMB-family motor-operated valve actuators.
-Five modeled systems with clickable components, an X-ray operating mode that reveals the live
-drive train, a dependency-gated assembly bench, and a 29-step procedure player.
+I do not work like a traditional software developer.
 
-Held to a **1:1 dimensional standard** — geometry is corrected against measurements of the
-physical unit rather than approximated, and every source fact carries an explicit
-*verified / assumed / unknown* tag rather than a guess. Automated geometry and proportion
-audits gate each build. An adversarial review pass caught and corrected a mounting error the
-model had inherited from a misread drawing.
+I define the system, architecture, constraints, verification, failure behavior, and what the finished result needs to do. AI is my primary execution multiplier for implementation, while I remain the operator responsible for testing, troubleshooting, verification, and deciding what survives.
 
-Ongoing work is closing the remaining gap between model and physical unit.
+My work spans industrial electrical systems, PLC/HVAC automation, local AI, model inspection, MCP, hardware, recovery systems, CAD, simulation, and AI-assisted engineering.
+
+Most repositories are private.
+
+Source may be available under NDA or on request where it is not patent-sensitive or tied to proprietary control logic.
 
 ---
 
-### AI Industrial Diagnostic Gateway — *patent pending*
-Read-only fault-diagnostic platform for PLCs, VFDs, HVAC, industrial robots, and safety
-controllers across 18 device classes. Reads Modbus TCP/RTU, BACnet/IP, and OPC-UA registers and
-returns a plain-English incident report: what failed, where it sits on the machine, a
-step-by-step fix, and an escalation flag when a specialist is required.
+# Selected Systems
 
-**Read-only at the architectural level** — no write path to any device register. No OEM warranty
-exposure, no integrator conflict, and no liability from an AI-triggered action, because the
-system never takes one.
+## AI Industrial Diagnostic Gateway
 
-The inference layer is provider-swappable at runtime, including a fully local, air-gap-compatible
-option for classified, ITAR, and nuclear-adjacent sites where fault data cannot leave the
-building.
+A passive, read-only industrial fault-diagnostic system for PLCs, VFDs, HVAC equipment, industrial robots, and safety controllers across 18 device classes.
 
-Provisional patent filed with the USPTO, May 2026. *Implementation details withheld.*
+The system reads protocols including:
 
----
+- Modbus TCP / RTU
+- BACnet/IP
+- OPC-UA
 
-### Trading System — algorithmic trading research
-Multi-ticker equity bot on paper trading with a local-model quant gate that blocks any entry
-failing its checks, an exchange-holiday-aware market clock, automatic halt on repeated faults, a
-dead-man watchdog, and phone push escalation.
+and produces a plain-language incident report describing:
 
-Built a backtesting lab with a realistic cost model — spread plus slippage, no look-ahead, fixed
-out-of-sample parameters — and tested three strategy hypotheses against history. Mean reversion
-proved regime-dependent, overnight drift was cost-killed, and cross-sectional momentum lagged
-buy-and-hold.
+- what failed
+- where the component sits on the machine
+- a step-by-step troubleshooting path
+- when the issue should be escalated to a specialist
 
-**Concluded no durable edge and recommended indexing the capital rather than trading it.**
-The deliverable is the research lab and the discipline to retire a strategy on evidence.
+The system is **read-only at the architectural level**. There is no write path to a device register.
+
+The inference layer can be swapped at runtime, including a fully local configuration for environments where equipment or fault data cannot leave the facility.
+
+The local-model architecture is designed around constrained reference data, operator visibility, failure containment, and escalation rather than trusting unrestricted model generation.
+
+The updated local-AI design is being prepared for provisional patent filing.
+
+Implementation and control details are intentionally withheld.
 
 ---
 
-### STARK Exoskeleton
-Native desktop command deck registering 12 personal systems with one-click launch, live GPU/VRAM
-and local-model telemetry, Git sync state, and drive-mount monitoring — backed by a 267-note
-knowledge architecture that lets any model, frontier or local, execute engineering work at a
-consistent grade and survive model transitions without losing context.
+## Local AI Operations Console
 
-Includes a council view that convenes multiple frontier models plus the operator in one shared
-thread, each answering in sequence and able to hand work to whichever is strongest, followed by a
-cross-talk round where a model replies only if it has a material correction.
+A native desktop operating environment for organizing and launching my projects, models, tools, files, and verification workflows.
 
----
+The console currently registers multiple independent systems and provides:
 
-### Systems recovery, hardening, and replication
-Recovered 176 GB from a corrupted Windows installation's user profile using backup-mode copy to
-bypass access-control entries tied to a dead account, then reclaimed the drive with a scripted
-zero-pass format that refuses to run unless four independent conditions verify first — including
-that the recovered copy actually exists — so the source is never destroyed on an assumption.
+- one-click project launch
+- GPU / VRAM monitoring
+- local-model telemetry
+- Git synchronization state
+- drive and system-state monitoring
+- project handoffs
+- dedicated project workspaces
 
-Built local-first peer-to-peer synchronization between two Windows machines over LAN with TLS
-device-to-device transfer and conflict-preserving writes. Put the design through adversarial
-review *before* implementation, which returned three failure verdicts including a silent
-data-loss route, and built from those findings rather than from the working path.
+It also includes a multi-model **AI Council**.
 
----
+The Council places multiple frontier models and me into one shared working thread, allowing models to handle different responsibilities instead of asking every model to perform the same job.
 
-### Also built
-MCP servers (two pure-stdlib stdio JSON-RPC servers in daily use, one serving a 637-term
-plain-language technical translation layer) · a reusable build-time CAD and verification
-toolchain · an input-telemetry tool deriving optimal mouse sensitivity from 1.6M+ samples ·
-a Godot 4.6 game in development · a self-built OPTA PLC and Emerson VFD industrial system ·
-an ESP32 network-scanning device
+The larger workflow separates roles such as:
+
+**vision → build → troubleshoot → observe → verify → update**
+
+I am still the orchestration layer deciding where work moves, what gets challenged, what gets retained, and what gets decommissioned.
+
+The system is backed by a 267-note local knowledge architecture containing operating doctrine, technical references, execution procedures, and project state so that different models can enter the environment without starting from zero.
 
 ---
 
-## Background
+## Local LLM Black Box / Interpretability Panel
 
-**Industrial** — 24V to 480V systems, board-level diagnostics, troubleshooting without schematics
-or live power. Siemens PLC and Desigo CC building management, Trane HVAC and variable frequency
-drives, chillers, air handlers, cooling towers, ERUs. NFPA 70E, OSHA LOTO, EPA 608 Universal.
+A local-model inspection environment built to make model behavior more observable.
 
-**Automation** — Siemens TIA Portal, S7-1200/1500, G120 VFD configuration, Ladder Logic,
-ProfiNet, HMI configuration, Modbus TCP/RTU, BACnet/IP.
+Instead of treating a neural network only as an input/output box, the panel provides instrumentation for examining internal behavior through experiments including:
 
-**Software** — Python, Flask, pywebview, three.js, SQLite/PostgreSQL, pandas, local model
-deployment, MCP server development, parametric CAD, automated verification engineering.
+- layer-by-layer inspection
+- attention inspection
+- logit-lens style reads
+- probing and comparison
+- steering experiments
+- residual patching
+- knock-out testing
+- universality / representation comparisons
+- repeatable saved experimental runs
 
-**Service** — U.S. Army, 173rd Airborne Brigade, 2021–2025. Mortar Team Leader. 28 parachute
-jumps. Army Commendation Medal. Secret clearance, inactive and eligible for reinstatement.
+The interface uses measurement concepts inspired by electrical troubleshooting:
+
+**measure → disturb → compare → isolate**
+
+The goal is not to claim that the inside of a model becomes completely understandable.
+
+The goal is to give the operator useful instrumentation for identifying where behavior changes, testing hypotheses, and finding repeatable patterns.
+
+The deeper detection and control logic is private.
 
 ---
 
-## Contact
+## STARK Forge
 
-Open to contract work in industrial AI, diagnostics, and systems engineering.
+A reusable build-time engineering and verification toolchain used across projects.
 
-📧 ryanjames0125@icloud.com
+It exists because I kept encountering the same problem:
 
+AI can generate something that looks correct while still being dimensionally, structurally, or logically wrong.
+
+Forge adds independent verification around the build process.
+
+Depending on the project, that includes:
+
+- parametric CAD
+- geometry measurement
+- pixel-difference auditing
+- reference-image comparison
+- adversarial review
+- deterministic checks
+- build validation before handoff
+
+The system is intended to reduce the distance between:
+
+**what I envisioned → what was generated → what actually exists**
+
+---
+
+## Systems Recovery, Hardening, and Replication
+
+Recovered 176 GB from a corrupted Windows user profile using backup-mode copy to bypass permissions tied to the dead installation.
+
+Before reclaiming the original drive, I built a scripted zero-pass process that would not execute unless multiple independent conditions passed first, including verification that the recovered copy actually existed.
+
+The principle was simple:
+
+**never destroy the source because one check said the backup worked.**
+
+I later built local-first peer-to-peer synchronization between two Windows systems over LAN with encrypted device-to-device transfer and conflict-preserving writes.
+
+The design went through adversarial review before implementation.
+
+That review found three failure paths, including a silent data-loss route, and the system was rebuilt around those failures rather than around the happy path.
+
+---
+
+## Algorithmic Trading Research System
+
+A multi-ticker paper-trading research system with:
+
+- local-model quantitative gating
+- exchange-calendar awareness
+- repeated-fault automatic halt
+- dead-man watchdog
+- phone escalation
+- realistic spread and slippage modeling
+- no look-ahead
+- fixed out-of-sample testing
+
+Three strategy hypotheses were tested against historical data.
+
+The result was not a trading product.
+
+The evidence showed no durable edge strong enough to justify deploying the capital, so the conclusion was to retire the strategies and favor indexing instead.
+
+The useful result was the research system and the discipline to stop when the evidence stopped supporting the idea.
+
+---
+
+## Interactive Physics and Math Learning Lab
+
+A self-directed learning environment built around reconstruction rather than passive reading.
+
+The application organizes open problems in physics into a structured ledger and combines them with:
+
+- mathematical notation practice
+- graded reconstruction exercises
+- conceptual decomposition
+- self-testing
+
+The lab is a learning instrument.
+
+It is not a claim that I solved the problems it contains.
+
+---
+
+## MCP Systems
+
+I currently use multiple custom MCP servers as part of my daily workflow.
+
+One includes a 637-term plain-language technical translation layer designed to convert unfamiliar terminology into language I can connect to systems I already understand.
+
+My MCP work is increasingly becoming the connective tissue between:
+
+- models
+- projects
+- local knowledge
+- tools
+- live system state
+- verification
+- operator decisions
+
+I treat MCP less as a chatbot extension and more as an interface layer for orchestrated work.
+
+---
+
+# Other Builds
+
+Also built or actively developing:
+
+- ESP32 network-scanning device
+- self-built OPTA PLC + Emerson VFD industrial system
+- input-telemetry system using 1.6M+ samples to derive mouse sensitivity
+- Godot 4.x multiplayer game
+- local-first machine replication
+- automated CAD and geometry-verification pipelines
+- multi-model build / troubleshoot / verify workflows
+- local LLM deployment and testing infrastructure
+- technical knowledge systems in Obsidian
+
+---
+
+# Industrial Background
+
+My technical background started outside software.
+
+I have worked directly with:
+
+- 24V–480V electrical systems
+- industrial wiring
+- board-level troubleshooting
+- electrical diagnostics without schematics
+- Siemens S7-1200 / S7-1500 PLCs
+- Siemens TIA Portal
+- G120 VFDs
+- Desigo CC
+- ProfiNet
+- HMI systems
+- Modbus
+- BACnet
+- Trane HVAC
+- chillers
+- air handlers
+- cooling towers
+- ERUs
+- embedded hardware
+
+Safety and trade training includes NFPA 70E, OSHA LOTO, and EPA 608 Universal.
+
+---
+
+# How I Work
+
+I am not trying to make one AI do everything.
+
+I divide work according to the strengths of the system performing it.
+
+A project may have:
+
+- a builder
+- a troubleshooting operator
+- an independent verifier
+- a local observation layer
+- a shared AI council
+- me as the operator orchestrating the whole system
+
+If something works, I keep it.
+
+If something fails, I try to understand why.
+
+If the component can be tuned, I tune it.
+
+If it cannot justify remaining in the system, I decommission it and keep whatever is still useful.
+
+I am less interested in finding a perfect component than building a system that remains useful when individual components are imperfect.
+
+---
+
+# Current Direction
+
+My current work is moving toward:
+
+**AI orchestration + local models + verification + industrial systems + operator-centered tooling**
+
+The long-term goal is not autonomous AI replacing operators.
+
+It is building systems where AI gives a competent human better visibility, faster access to information, stronger verification, and more leverage without removing accountability from the operator.
+
+---
+
+**Observe. Model. Test. Update.**
 <!--
 **ryanjames11c/ryanjames11c** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
